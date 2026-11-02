@@ -4,6 +4,8 @@ on:
     branches: [ "claude/**" , main ]
     paths: [ "android-carplay-ui/**", ".github/workflows/android.yml" ]
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,3 +21,14 @@ jobs:
         with:
           name: ridgeline-dock-debug
           path: android-carplay-ui/app/build/outputs/apk/debug/*.apk
+      - name: Commit APK to dist/ on this branch
+        if: startsWith(github.ref_name, 'claude/')
+        working-directory: .
+        run: |
+          mkdir -p dist
+          cp android-carplay-ui/app/build/outputs/apk/debug/app-debug.apk dist/RidgelineDock.apk
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add dist/RidgelineDock.apk
+          git commit -m "Add built APK (build ${{ github.run_number }})"
+          git push origin HEAD:refs/heads/${{ github.ref_name }}
