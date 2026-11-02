@@ -48,7 +48,7 @@ Sign every release with the **same keystore** or the verifier (correctly) refuse
 - **MCU/CAN serial node, baud, and framing** (`McuFrameParser`: `0x2E,id,len,data,checksum`) are assumptions - the raw-hex pane exists to confirm them.
 - **Vehicle outputs** (`McuVehicleControl`): no hardware transport yet; buttons only toggle UI state.
 - **Silent install** and early start require a priv-app install (`scripts/install-as-privapp.sh`); otherwise Android shows its install prompt.
-- **icons were redrawn from `docs/mockup.png`; the Honda H is a hand-traced approximation - swap in an SVG of the exact logo if you have one.
+- **Icons**: were redrawn from `docs/mockup.png`; the Honda H is a hand-traced approximation - swap in an SVG of the exact logo if you have one.
   Drop it into `res/drawable/ic_honda_h.xml` (Android Studio: Vector Asset import).
 - LocalSend: I did not verify a headless/CLI receive mode; use the GUI app with auto-accept, or check LocalSend's current docs.
 
