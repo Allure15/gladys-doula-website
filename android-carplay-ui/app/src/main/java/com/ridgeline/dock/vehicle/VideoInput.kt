@@ -16,12 +16,18 @@ object VideoInput {
 
     fun launch(ctx: Context) {
         val saved = prefs(ctx).getString("component", null)?.let(ComponentName::unflattenFromString)
-        if (saved == null) { pick(ctx); return }
+        if (saved == null) { needSetup(ctx); return }
         try {
             ctx.startActivity(Intent(Intent.ACTION_MAIN).setComponent(saved).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         } catch (e: Exception) {
-            Toast.makeText(ctx, "Video input app not found - choose again", Toast.LENGTH_LONG).show(); pick(ctx)
+            needSetup(ctx)
         }
+    }
+
+    /** The dock overlay lives in a service context (no dialogs), so send the user to Settings. */
+    private fun needSetup(ctx: Context) {
+        Toast.makeText(ctx, "Choose the video input app: Settings -> Set video input app", Toast.LENGTH_LONG).show()
+        ctx.startActivity(Intent(ctx, com.ridgeline.dock.ui.SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     fun current(ctx: Context): String = prefs(ctx).getString("component", null) ?: "not set"

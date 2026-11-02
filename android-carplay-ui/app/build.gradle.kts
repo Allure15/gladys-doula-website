@@ -13,6 +13,15 @@ android {
         versionCode = 1      // bump on every release: USB updater only installs HIGHER versionCode
         versionName = "1.0.0"
     }
+    // DEV signing key committed on purpose so every build (CI or local) has the SAME signature,
+    // which the in-app updater requires. Replace with a private keystore before sharing the APK.
+    signingConfigs {
+        create("dev") { storeFile = file("dev.keystore"); storePassword = "android"; keyAlias = "dev"; keyPassword = "android" }
+    }
+    buildTypes {
+        getByName("debug") { signingConfig = signingConfigs.getByName("dev") }
+        getByName("release") { signingConfig = signingConfigs.getByName("dev") }
+    }
     buildFeatures { buildConfig = true }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

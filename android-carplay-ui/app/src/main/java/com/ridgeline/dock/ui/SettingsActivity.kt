@@ -40,6 +40,8 @@ class SettingsActivity : ComponentActivity() {
         }
         fun row(text: String, action: () -> Unit) = col.addView(Button(this).apply { this.text = text; setOnClickListener { action() } })
         col.addView(TextView(this).styled().apply { text = "Radio settings"; textSize = 22f })
+        col.addView(TextView(this).apply { setTextColor(Color.LTGRAY); text = "Zlink app: ${com.ridgeline.dock.zlink.ZLinkConfig.detected(this@SettingsActivity)}" })
+        row("Launch Zlink now") { com.ridgeline.dock.zlink.ZLinkConfig.launchUi(this) }
         row("CAN sniffer / diagnostic") { startActivity(Intent(this, CanSnifferActivity::class.java)) }
         row("Configure buttons (Trailer / Aux / Fog)") { startActivity(Intent(this, ButtonConfigActivity::class.java)) }
         row("Open file manager (update folder)") { openFileManager() }
