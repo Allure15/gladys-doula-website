@@ -14,8 +14,8 @@ import java.io.File
  * to new files; ACTION_MEDIA_MOUNTED plus a 15 s rescan covers folders that didn't exist
  * yet when the stick was inserted.
  */
-class UpdateWatcher(private val ctx: Context, dirs: List<File>, private val onApk: (File) -> Unit) {
-    private var dirs = dirs
+class UpdateWatcher(private val ctx: Context, initialDirs: List<File>, private val onApk: (File) -> Unit) {
+    private var dirs = initialDirs
     private val observers = HashMap<File, FileObserver>()
     private val handler = Handler(Looper.getMainLooper())
     private val rescan = object : Runnable { override fun run() { scan(); handler.postDelayed(this, 15_000) } }

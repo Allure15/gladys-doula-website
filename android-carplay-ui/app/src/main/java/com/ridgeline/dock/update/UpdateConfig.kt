@@ -4,7 +4,7 @@ import android.content.Context
 import java.io.File
 
 object UpdateConfig {
-    /** Folder on the USB stick: <usb>/RidgelineUpdate/*.apk */
+    /** Folder on the USB stick that holds the update APK (<usb>/RidgelineUpdate). */
     const val USB_FOLDER = "RidgelineUpdate"
     /** LocalSend receive folder (port 53317, auto-accept). */
     const val LOCALSEND_DIR = "/update"

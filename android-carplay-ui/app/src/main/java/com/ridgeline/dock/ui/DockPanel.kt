@@ -21,7 +21,7 @@ class DockPanel(ctx: Context, dockHeightPx: Int) : LinearLayout(ctx) {
     private val app = ctx.dockApp
     private val bannerText = TextView(ctx).styled().apply { textSize = 14f }
     private val banner = LinearLayout(ctx).apply {
-        setBackgroundColor(0xF012161B.toInt()); gravity = Gravity.CENTER_VERTICAL; setPadding(dp(16), dp(6), dp(16), dp(6)); visibility = View.GONE
+        setBackgroundColor(0xF012161B.toInt()); gravity = Gravity.CENTER_VERTICAL; setPadding(ctx.dp(16), ctx.dp(6), ctx.dp(16), ctx.dp(6)); visibility = View.GONE
         addView(bannerText, LayoutParams(0, -2, 1f))
         addView(Button(ctx).apply { text = "Install now"; setOnClickListener { app.update.installNow() } })
         addView(Button(ctx).apply { text = "Cancel"; setOnClickListener { app.update.cancel() } })
@@ -44,8 +44,8 @@ class DockPanel(ctx: Context, dockHeightPx: Int) : LinearLayout(ctx) {
                 .forEach { addView(it, LayoutParams(0, -1, if (it === honda) 1.3f else 1f)) }
         }
         addView(banner, LayoutParams(-1, -2))
-        addView(View(ctx).apply { setBackgroundColor(0xFFFFFFFF.toInt()) }, LayoutParams(-1, dp(2)))
-        addView(row, LayoutParams(-1, dockHeightPx - dp(2)))
+        addView(View(ctx).apply { setBackgroundColor(0xFFFFFFFF.toInt()) }, LayoutParams(-1, ctx.dp(2)))
+        addView(row, LayoutParams(-1, dockHeightPx - ctx.dp(2)))
     }
 
     fun bind(scope: CoroutineScope): Job = scope.launch {

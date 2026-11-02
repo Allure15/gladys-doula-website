@@ -26,14 +26,14 @@ object VehicleSignals {
 class TurnSignalOverlay(private val ctx: Context) {
     private val wm = ctx.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val handler = Handler(Looper.getMainLooper())
-    private val left = ArrowView(ctx, pointsRight = false)
-    private val right = ArrowView(ctx, pointsRight = true)
+    private val leftArrow = ArrowView(ctx, pointsRight = false)
+    private val rightArrow = ArrowView(ctx, pointsRight = true)
     private val root = FrameLayout(ctx).apply {
         val d = ctx.resources.displayMetrics.density
         setPadding((16 * d).toInt(), (12 * d).toInt(), (16 * d).toInt(), 0)
         val sz = (48 * d).toInt()
-        addView(left, FrameLayout.LayoutParams(sz, sz * 3 / 4, Gravity.START or Gravity.TOP))
-        addView(right, FrameLayout.LayoutParams(sz, sz * 3 / 4, Gravity.END or Gravity.TOP))
+        addView(leftArrow, FrameLayout.LayoutParams(sz, sz * 3 / 4, Gravity.START or Gravity.TOP))
+        addView(rightArrow, FrameLayout.LayoutParams(sz, sz * 3 / 4, Gravity.END or Gravity.TOP))
         visibility = View.INVISIBLE
     }
     private var attached = false
@@ -41,8 +41,8 @@ class TurnSignalOverlay(private val ctx: Context) {
 
     fun show(sig: TurnSignal) {
         if (!attach()) return
-        left.visibility = if (sig != TurnSignal.RIGHT) View.VISIBLE else View.INVISIBLE
-        right.visibility = if (sig != TurnSignal.LEFT) View.VISIBLE else View.INVISIBLE
+        leftArrow.visibility = if (sig != TurnSignal.RIGHT) View.VISIBLE else View.INVISIBLE
+        rightArrow.visibility = if (sig != TurnSignal.LEFT) View.VISIBLE else View.INVISIBLE
         root.visibility = View.VISIBLE
         handler.removeCallbacks(hide)
         handler.postDelayed(hide, 2000)
