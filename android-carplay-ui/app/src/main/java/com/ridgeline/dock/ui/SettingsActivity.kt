@@ -43,6 +43,7 @@ class SettingsActivity : ComponentActivity() {
         row("CAN sniffer / diagnostic") { startActivity(Intent(this, CanSnifferActivity::class.java)) }
         row("Open file manager (update folder)") { openFileManager() }
         row("Pick update APK...") { pick.launch(arrayOf("application/vnd.android.package-archive", "application/octet-stream")) }
+        row("Set video input app (now: ${com.ridgeline.dock.vehicle.VideoInput.current(this)})") { com.ridgeline.dock.vehicle.VideoInput.pick(this) }
         row("System settings") { startActivity(Intent(Settings.ACTION_SETTINGS)) }
         row("Close") { finish() }
         col.addView(TextView(this).apply {

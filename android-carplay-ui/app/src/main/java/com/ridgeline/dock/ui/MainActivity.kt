@@ -59,6 +59,7 @@ class MainActivity : ComponentActivity() {
         val video = DockButton(this, R.drawable.ic_video, "VIDEO")
         val vehicle = mapOf(VehicleModule.TRAILER to trailer, VehicleModule.AUX to aux, VehicleModule.FOG to fog, VehicleModule.VIDEO to video)
         vehicle.forEach { (m, b) -> b.setOnClickListener { app.vehicle.toggle(m) } }
+        video.setOnClickListener { com.ridgeline.dock.vehicle.VideoInput.launch(this) }   // video input, not a relay
         honda.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
         val dock = LinearLayout(this).apply {

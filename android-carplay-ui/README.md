@@ -46,7 +46,7 @@ Sign every release with the **same keystore** or the verifier (correctly) refuse
   are **stubs**: there is no public ZLink API, so rendering the phone screen inside the top 80 % needs the vendor SDK/AIDL (or placing the
   vendor ZLink activity into that region via the ROM's multi-window support). Until wired, the top area is an empty surface.
 - **MCU/CAN serial node, baud, and framing** (`McuFrameParser`: `0x2E,id,len,data,checksum`) are assumptions - the raw-hex pane exists to confirm them.
-- **Vehicle outputs** (`McuVehicleControl`): no hardware transport yet; buttons only toggle UI state.
+- **Vehicle outputs** (`McuVehicleControl`): Trailer, Aux and Fog have no hardware transport yet (UI state only). **Video** launches the radio's video-input app, chosen once under Settings -> Set video input app.
 - **Silent install** and early start require a priv-app install (`scripts/install-as-privapp.sh`); otherwise Android shows its install prompt.
 - **Icons**: were redrawn from `docs/mockup.png`; the Honda H is a hand-traced approximation - swap in an SVG of the exact logo if you have one.
   Drop it into `res/drawable/ic_honda_h.xml` (Android Studio: Vector Asset import).
