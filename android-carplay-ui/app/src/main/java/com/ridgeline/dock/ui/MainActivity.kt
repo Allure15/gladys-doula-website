@@ -62,12 +62,13 @@ class MainActivity : ComponentActivity() {
         honda.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
         val dock = LinearLayout(this).apply {
-            setBackgroundColor(0xFF12161B.toInt()); gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(0xFF000000.toInt()); gravity = Gravity.CENTER_VERTICAL
             listOf(trailer, aux, honda, fog, video).forEach { addView(it, LinearLayout.LayoutParams(0, -1, if (it === honda) 1.3f else 1f)) }
         }
         setContentView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF0B0D10.toInt())
+            orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF000000.toInt())
             addView(content, LinearLayout.LayoutParams(-1, 0, 4f))
+            addView(View(context).apply { setBackgroundColor(0xFFFFFFFF.toInt()) }, LinearLayout.LayoutParams(-1, dp(2)))   // white divider
             addView(dock, LinearLayout.LayoutParams(-1, 0, 1f))
         })
 

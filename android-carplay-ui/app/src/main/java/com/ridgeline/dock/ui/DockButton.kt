@@ -10,7 +10,7 @@ import android.widget.TextView
 /** Icon (white on dark) with optional label underneath. [on] tints icon + label with the accent. */
 class DockButton(ctx: Context, icon: Int, label: String?, iconDp: Int = 52) : LinearLayout(ctx) {
     private val img = ImageView(ctx).apply { setImageResource(icon) }
-    private val txt = TextView(ctx).apply { text = label; textSize = 13f; letterSpacing = .08f; gravity = Gravity.CENTER }
+    private val txt = TextView(ctx).apply { text = label; textSize = 17f; typeface = android.graphics.Typeface.DEFAULT_BOLD; letterSpacing = .02f; gravity = Gravity.CENTER }
 
     init {
         orientation = VERTICAL; gravity = Gravity.CENTER; isClickable = true; isFocusable = true
