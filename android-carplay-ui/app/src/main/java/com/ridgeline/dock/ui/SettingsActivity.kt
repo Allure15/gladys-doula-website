@@ -42,6 +42,12 @@ class SettingsActivity : ComponentActivity() {
         col.addView(TextView(this).styled().apply { text = "Radio settings"; textSize = 22f })
         col.addView(TextView(this).apply { setTextColor(Color.LTGRAY); text = "Zlink app: ${com.ridgeline.dock.zlink.ZLinkConfig.detected(this@SettingsActivity)}" })
         row("Launch Zlink now") { com.ridgeline.dock.zlink.ZLinkConfig.launchUi(this) }
+        col.addView(TextView(this).apply { setTextColor(Color.LTGRAY); text = this@SettingsActivity.dockApp.espLink.status.value })
+        col.addView(CheckBox(this).apply {
+            text = "Show video input while left/right blinker is on"; setTextColor(Color.WHITE)
+            isChecked = com.ridgeline.dock.vehicle.VideoInput.onBlinker(context)
+            setOnCheckedChangeListener { _, c -> com.ridgeline.dock.vehicle.VideoInput.setOnBlinker(context, c) }
+        })
         row("CAN sniffer / diagnostic") { startActivity(Intent(this, CanSnifferActivity::class.java)) }
         row("Configure buttons (Trailer / Aux / Fog)") { startActivity(Intent(this, ButtonConfigActivity::class.java)) }
         row("Open file manager (update folder)") { openFileManager() }

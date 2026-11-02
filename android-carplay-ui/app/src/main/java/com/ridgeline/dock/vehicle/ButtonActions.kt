@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.ridgeline.dock.dockApp
 import java.io.File
 import java.io.FileOutputStream
 
@@ -11,6 +12,7 @@ enum class ActionType(val label: String, val hintA: String, val hintB: String, v
     NONE("Not configured", "", "", ""),
     BROADCAST("Send broadcast", "Intent action (e.g. com.vendor.FOG)", "Boolean extra name (sent true/false)", "Package (optional)"),
     SERIAL("Write to serial port (ESP32 relay / MCU)", "Node@baud (e.g. /dev/ttyACM0@115200)", "ON command text (\\n = newline)", "OFF command text"),
+    ESP32("ESP32 output (USB)", "Channel: FOG, CAML or CAMR", "", ""),
     APP("Launch app", "package/activity (flattened component)", "", "")
 }
 
@@ -22,6 +24,7 @@ object ButtonActions {
 
     fun load(ctx: Context, m: VehicleModule): ButtonConfig {
         val p = prefs(ctx)
+        if (!p.contains("$m.type") && m == VehicleModule.FOG) return ButtonConfig(ActionType.ESP32, "FOG", "", "")
         return ButtonConfig(runCatching { ActionType.valueOf(p.getString("$m.type", "NONE")!!) }.getOrDefault(ActionType.NONE),
             p.getString("$m.a", "")!!, p.getString("$m.b", "")!!, p.getString("$m.c", "")!!)
     }
@@ -49,6 +52,10 @@ object ButtonActions {
                     val text = (if (on) cfg.b else cfg.c).replace("\\n", "\n").replace("\\r", "\r")
                     FileOutputStream(File(path)).use { it.write(text.toByteArray()) }
                     "$m ${if (on) "ON" else "OFF"}: wrote to $path"
+                }
+                ActionType.ESP32 -> {
+                    ctx.dockApp.espLink.send("SET ${cfg.a.trim().uppercase()} ${if (on) 1 else 0}")
+                    "$m ${if (on) "ON" else "OFF"}: sent to ESP32 (${cfg.a})"
                 }
                 ActionType.APP -> {
                     ctx.startActivity(Intent(Intent.ACTION_MAIN).setComponent(ComponentName.unflattenFromString(cfg.a))

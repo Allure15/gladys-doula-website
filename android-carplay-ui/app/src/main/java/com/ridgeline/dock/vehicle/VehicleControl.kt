@@ -23,6 +23,7 @@ class McuVehicleControl(private val ctx: android.content.Context) : VehicleContr
         Thread {   // blocking serial / broadcast work off the UI thread; result shown as a toast
             val msg = ButtonActions.execute(ctx, module, on)
             Log.i("Vehicle", msg)
+            if (msg.contains("FAILED") || msg.contains("no action configured")) _states.value = _states.value + (module to !on)   // don't show ON when nothing happened
             android.os.Handler(android.os.Looper.getMainLooper()).post { android.widget.Toast.makeText(ctx, msg, android.widget.Toast.LENGTH_SHORT).show() }
         }.start()
     }

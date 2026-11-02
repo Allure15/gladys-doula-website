@@ -4,7 +4,9 @@ import android.app.*
 import android.content.Intent
 import android.os.IBinder
 import com.ridgeline.dock.dockApp
+import com.ridgeline.dock.esp.TurnState
 import com.ridgeline.dock.overlay.DockOverlay
+import com.ridgeline.dock.vehicle.VideoInput
 import com.ridgeline.dock.overlay.TurnSignalOverlay
 import com.ridgeline.dock.overlay.VehicleSignals
 import com.ridgeline.dock.update.UpdateConfig
@@ -43,6 +45,18 @@ class ZLinkEarlyService : Service() {
         scope.launch { VehicleSignals.turn.collect { arrows.show(it) } }
         app.blinker.start(scope)
         app.canBus.startIfEnabled()
+        app.espLink.start()
+        scope.launch {   // optional: show the video input while a side blinker is on, back to Zlink when it ends
+            var prev = TurnState.NONE
+            app.espLink.turn.collect { s ->
+                if (VideoInput.onBlinker(this@ZLinkEarlyService)) {
+                    val side = { t: TurnState -> t == TurnState.LEFT || t == TurnState.RIGHT }
+                    if (prev == TurnState.NONE && side(s)) VideoInput.launchIfSet(this@ZLinkEarlyService)
+                    else if (side(prev) && s == TurnState.NONE) ZLinkConfig.launchUi(this@ZLinkEarlyService)
+                }
+                prev = s
+            }
+        }
         watcher = UpdateWatcher(this, UpdateConfig.watchDirs(this)) { app.update.offer(it) }.also { it.start() }
         return START_STICKY
     }

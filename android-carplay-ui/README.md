@@ -32,6 +32,9 @@ If it stays at NO DATA the CAN Pro box ("disconnect", profile *Hiworld-2004~2007
 select the correct CAN profile for the 2008 Ridgeline or use the **ESP32 fallback**: CAN transceiver (e.g. SN65HVD230) ->
 ESP32 -> USB-serial, one line per frame `"<hexid>:<hexbytes>\n"` (select "Source: ESP32 lines"). Only build it if decode stays unreliable.
 
+## ESP32 IO board
+Fog relay, blinker sensing and side-camera relays over USB serial: see `docs/esp32.md` and `esp32/ridgeline_io/`. App side: `esp/EspLink.kt`.
+
 ## Updates (one pipeline: `UpdateCoordinator`)
 1. **LocalSend** (phone + radio, port 53317, auto-accept, optional PIN): set the receive folder to `/update`. `UpdateWatcher` sees the file.
 2. **USB**: `<stick>/RidgelineUpdate/*.apk` (FileObserver + `ACTION_MEDIA_MOUNTED` + 15 s rescan).

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.ridgeline.dock.can.BlinkerDecoder
 import com.ridgeline.dock.can.CanBus
+import com.ridgeline.dock.esp.EspLink
 import com.ridgeline.dock.status.StatusRepository
 import com.ridgeline.dock.update.UpdateCoordinator
 import com.ridgeline.dock.vehicle.McuVehicleControl
@@ -23,6 +24,7 @@ class DockApp : Application() {
     lateinit var vehicle: VehicleControl
     lateinit var canBus: CanBus
     lateinit var blinker: BlinkerDecoder
+    lateinit var espLink: EspLink
 
     override fun onCreate() {
         super.onCreate()
@@ -32,6 +34,7 @@ class DockApp : Application() {
         vehicle = McuVehicleControl(this)
         canBus = CanBus(this)
         blinker = BlinkerDecoder(this, canBus)
+        espLink = EspLink(this)
     }
 }
 

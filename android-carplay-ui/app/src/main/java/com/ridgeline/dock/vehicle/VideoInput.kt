@@ -30,6 +30,11 @@ object VideoInput {
         ctx.startActivity(Intent(ctx, com.ridgeline.dock.ui.SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
+    fun isSet(ctx: Context) = prefs(ctx).getString("component", null) != null
+    fun onBlinker(ctx: Context) = prefs(ctx).getBoolean("on_blinker", false)
+    fun setOnBlinker(ctx: Context, v: Boolean) = prefs(ctx).edit().putBoolean("on_blinker", v).apply()
+    fun launchIfSet(ctx: Context) { if (isSet(ctx)) launch(ctx) }
+
     fun current(ctx: Context): String = prefs(ctx).getString("component", null) ?: "not set"
 
     fun pick(ctx: Context) {
