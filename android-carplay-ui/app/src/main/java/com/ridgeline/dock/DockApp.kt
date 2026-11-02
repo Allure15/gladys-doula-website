@@ -29,7 +29,7 @@ class DockApp : Application() {
         zlink = BroadcastZLinkClient(this)
         status = StatusRepository(this, zlink)
         update = UpdateCoordinator(this, status.carPlayActive, scope)
-        vehicle = McuVehicleControl()
+        vehicle = McuVehicleControl(this)
         canBus = CanBus(this)
         blinker = BlinkerDecoder(this, canBus)
     }

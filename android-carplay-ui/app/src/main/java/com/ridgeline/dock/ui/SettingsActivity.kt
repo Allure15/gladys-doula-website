@@ -41,6 +41,7 @@ class SettingsActivity : ComponentActivity() {
         fun row(text: String, action: () -> Unit) = col.addView(Button(this).apply { this.text = text; setOnClickListener { action() } })
         col.addView(TextView(this).styled().apply { text = "Radio settings"; textSize = 22f })
         row("CAN sniffer / diagnostic") { startActivity(Intent(this, CanSnifferActivity::class.java)) }
+        row("Configure buttons (Trailer / Aux / Fog)") { startActivity(Intent(this, ButtonConfigActivity::class.java)) }
         row("Open file manager (update folder)") { openFileManager() }
         row("Pick update APK...") { pick.launch(arrayOf("application/vnd.android.package-archive", "application/octet-stream")) }
         row("Set video input app (now: ${com.ridgeline.dock.vehicle.VideoInput.current(this)})") { com.ridgeline.dock.vehicle.VideoInput.pick(this) }

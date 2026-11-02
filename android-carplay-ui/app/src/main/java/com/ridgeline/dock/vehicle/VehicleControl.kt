@@ -13,15 +13,17 @@ interface VehicleControl {
     fun toggle(module: VehicleModule)
 }
 
-class McuVehicleControl : VehicleControl {
+class McuVehicleControl(private val ctx: android.content.Context) : VehicleControl {
     private val _states = MutableStateFlow(VehicleModule.entries.associateWith { false })
     override val states = _states.asStateFlow()
 
     override fun toggle(module: VehicleModule) {
         val on = !(_states.value[module] ?: false)
-        // TODO(hardware): send the real MCU/CAN command for `module` -> `on`
-        // (vendor MCU serial/broadcast, or the ESP32 relay board). Local state only until then.
-        Log.i("Vehicle", "$module -> $on (no hardware transport wired yet)")
         _states.value = _states.value + (module to on)
+        Thread {   // blocking serial / broadcast work off the UI thread; result shown as a toast
+            val msg = ButtonActions.execute(ctx, module, on)
+            Log.i("Vehicle", msg)
+            android.os.Handler(android.os.Looper.getMainLooper()).post { android.widget.Toast.makeText(ctx, msg, android.widget.Toast.LENGTH_SHORT).show() }
+        }.start()
     }
 }

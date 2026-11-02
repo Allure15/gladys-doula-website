@@ -40,6 +40,7 @@
         </activity>
 
         <activity android:name=".ui.SettingsActivity" android:screenOrientation="landscape" />
+        <activity android:name=".ui.ButtonConfigActivity" android:screenOrientation="landscape" />
         <activity android:name=".can.CanSnifferActivity" android:screenOrientation="landscape" />
 
         <service android:name=".boot.ZLinkEarlyService" android:exported="false" />
